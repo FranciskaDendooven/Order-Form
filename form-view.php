@@ -28,7 +28,7 @@
         </ul>
     </nav>
     */ ?>
-    <form method="post">
+    <form method="POST">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="email">E-mail:</label>
@@ -56,7 +56,7 @@
                     <input type="text" id="city" name="city" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="zipcode">Zipcode</label>
+                    <label for="zipcode">Zipcode:</label>
                     <input type="text" id="zipcode" name="zipcode" class="form-control">
                 </div>
             </div>

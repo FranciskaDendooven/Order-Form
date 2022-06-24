@@ -6,6 +6,10 @@
 // This line makes PHP behave in a more strict way
 declare(strict_types=1);
 
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+
 // We are going to use session variables so we need to enable sessions
 session_start();
 
@@ -33,29 +37,64 @@ $products = [
 
 $totalValue = 0;
 
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  };
+
 function validate()
 {
     // TODO: This function will send a list of invalid fields back
-    return [];
+    return [
+    $email = $street =  $streetnumber = $city = $zipcode = ""];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $email = test_input($_POST["email"]);
+      $street = test_input($_POST["street"]);
+      $streetnumber = test_input($_POST["streetnumber"]);
+      $city = test_input($_POST["city"]);
+      $zipcode = test_input($_POST["zipcode"]);
+    }
 }
 
-function handleForm()
-{
-    // TODO: form related tasks (step 1)
+$orders = [];
+function handleForm($products, $totalValue)
+{// TODO: form related tasks (step 1)
+    // $orders = [];
+    for ($i = 0; $i < count($products); $i++) {
+        if(isset($_POST["products"] [$i])){
+        $orders = $products[$i]['name'];
+        $totalValue = $products[$i]['price'] + $products[$i]['price'];
+    }
+    return $orders;
+}
+
+$_POST['totalValue'] = $totalValue;
+
+    // echo "<pre>" . print_r($_POST) . "</pre>";
+    //     $email = isset($_POST["email"]) ? $_POST["email"] : "";
+    //     $street = isset($_POST["street"]) ? $_POST["street"] : "";
+    //     $streetnumber = isset($_POST["streetnumber"]) ? $_POST["streetnumber"] : "";
+    //     $city = isset($_POST["city"]) ? $_POST["city"] : "";
+    //     $zipcode = isset($_POST["zipcode"]) ? $_POST["zipcode"] : "";
 
     // Validation (step 2)
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         // TODO: handle errors
-    } else {
+        echo "Fill in this form correctly";
+    } elseif (isset($_POST["OK"])) {
         // TODO: handle successful submission
+       
     }
 }
 
 // TODO: replace this if by an actual check
 $formSubmitted = false;
 if ($formSubmitted) {
-    handleForm();
+    handleForm($products, $totalValue);
 }
 
 require 'form-view.php';
