@@ -6,6 +6,7 @@
 // This line makes PHP behave in a more strict way
 declare(strict_types=1);
 
+
 // echo "<pre>";
 // print_r($_POST);
 // echo "</pre>";
@@ -14,16 +15,16 @@ declare(strict_types=1);
 session_start();
 
 // Use this function when you need to need an overview of these variables
-function whatIsHappening() {
-    // echo '<h2>$_GET</h2>';
-    // var_dump($_GET);
-    echo '<h2>$_POST</h2>';
-    var_dump($_POST);
-    // echo '<h2>$_COOKIE</h2>';
-    // var_dump($_COOKIE);
-    echo '<h2>$_SESSION</h2>';
-    var_dump($_SESSION);
-}
+// function whatIsHappening() {
+//     // echo '<h2>$_GET</h2>';
+//     // var_dump($_GET);
+//     echo '<h2>$_POST</h2>';
+//     var_dump($_POST);
+//     // echo '<h2>$_COOKIE</h2>';
+//     // var_dump($_COOKIE);
+//     echo '<h2>$_SESSION</h2>';
+//     var_dump($_SESSION);
+// }
 
 // TODO: provide some products (you may overwrite the example)
 $products = [
@@ -34,16 +35,16 @@ $products = [
     ['name' => 'Vick Neo', 'price' => 129.99],
     ['name' => 'Benedict', 'price' => 69.99],
 ];
-// $_SESSION['products'] = "";
-$vibrators = $products;
+
+
 $totalValue = 0;
 
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  };
+// function test_input($data) {
+//     $data = trim($data);
+//     $data = stripslashes($data);
+//     $data = htmlspecialchars($data);
+//     return $data;
+//   };
 
 function validate()
 {
@@ -135,40 +136,57 @@ function validate()
 function generateAlert($field) {
     echo '<div class="alert alert-danger" role="alert">Invalid '. $field . '!</div>';
 }
-
-function handleForm()
+function handleForm($products, $totalValue)
 {// TODO: form related tasks (step 1)
-//     if (isset($_POST["submit"])) {
-//         $checkedBox = $_POST["checkbox"];
-//         $products = $_POST["products"];
+    $orders = [];
 
-//    if($checkedBox == 'name' && $products == 'price'){
-//     $totalValue = $checkedBox .  $products['price'];
-//             echo'<h1 class="output">' . $output . "</h1>";
-//    }
+  for($i = 0; $i < count($products); $i++) {
+    if(isset($_POST['products'][$i])) {
+      $orders[] = $products[$i]['name'];
+      $totalValue += $products[$i]['price'];
+    }
+} 
 
-// }
+    $_POST['totalValue'] = $totalValue;
 
 
-// $_POST['totalValue'] = $totalValue;
+
 
     // Validation (step 2)
     $invalidFields = validate();
     if (!empty($invalidFields)) {
         // TODO: handle errors
-        echo "Fill in this form correctly"; //add to inputfield
-    } elseif (isset($_POST["OK"])) {
+        echo '<div class="alert alert-danger" role="alert">Fill in this form correctly!</div>';
+        // echo "Fill in this form correctly"; //add to input field
+    } else {
         // TODO: handle successful submission
-    //    start the orders 
-    print_r("Well done!!");
+        for($i = 0; $i < count($orders); $i++){
+            echo '<div class="alert alert-success" role="success">'. $orders[$i] . '</div>';
+        }
+        
+        echo '<div class="alert alert-success" role="success">'. $totalValue . '</div>';
+
+    // print_r("Well done!!");
     }
 }
+
 
 // TODO: replace this if by an actual check
 // $formSubmitted = false;
 if (isset($_POST)) {
-    whatIsHappening();
-    handleForm();
+    handleForm($products, $totalValue);
+    // whatIsHappening();
 }
+
+
+
+// if (isset($_POST["submit"])) {
+//     $checkedBox = $_POST["products"];
+//     $products = $_POST["product[]"];
+
+// if($checkedBox == 'name' && $products == 'price'){
+// $totalValue = $checkedBox +  $products['price'];
+//         echo'<h1 class="output">' . $totalValue . "</h1>";
+// }
 
 require 'form-view.php';
