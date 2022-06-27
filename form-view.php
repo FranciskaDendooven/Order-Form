@@ -12,6 +12,10 @@
     <title>VibeUp</title>
 </head>
 <body>
+<div class="orderSummary">
+<?php echo $orderSummary ?>
+</div>
+
 <div class="container">
     <h1>Vibe Up Your Life. For Her and Him</h1>
     <h2>Place your order</h2>
@@ -28,6 +32,7 @@
         </ul>
     </nav>
     */ ?>
+
     <form method="POST">
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -72,7 +77,8 @@
             <?php endforeach; ?>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary">Order!</button>
+
+        <button type="submit" name="submit" class="btn btn-primary">Order!</button>
     </form>
     <footer>You already ordered <strong>&euro; <?php echo $_POST['totalValue'] ?></strong></footer>
     
